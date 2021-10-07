@@ -1,6 +1,4 @@
 build/
-pattern_clustering.egg-info/
-dist/
 
 # C++
 *.o
@@ -10,6 +8,8 @@ dist/
 *.pyc
 __pycache__
 .pytest_cache
+dist
+*.egg_info
 
 # Vim
 *.swp

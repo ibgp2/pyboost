@@ -5,53 +5,89 @@ See in setup.py how to turn on bindings_auto.cpp generation.
 */
 
 #include <boost/python.hpp>
-#include "pattern_clustering.hpp"
-#include "bindings_stl.hpp"
+#include "bonjour.hpp"
+#include "point.hpp"
+#include "stl_example.hpp"
 
 // {python <-> STL objects} converters
-// Custom converter, allowing to manipulate dict and list python-side
-static list_to_vector<PatternClustering::PatternAutomata> reg1;
-static vector_to_list<PatternClustering::PatternAutomata> reg2;
-static list_to_vector<PatternClustering::Densities> reg3;
-static vector_to_list<PatternClustering::Densities> reg4;
+// The same principle holds for custom C++ objects.
+#include "bindings_stl.hpp"
+#include <boost/python/suite/indexing/map_indexing_suite.hpp>
+#include <boost/python/suite/indexing/vector_indexing_suite.hpp>
 
-BOOST_PYTHON_MODULE(pattern_clustering) // Pass the python module name (as defined in setup.py)
+// Method1: use custom converter, allowing to manipulate dict and list python-side
+static map_to_dict<StlExample::MapStrInt> reg0;
+static dict_to_map<StlExample::MapStrInt> reg1;
+static list_to_vector<StlExample::Ints> reg2;
+static vector_to_list<StlExample::Ints> reg3;
+
+BOOST_PYTHON_MODULE(pyboost)
 {
     using namespace boost::python;
 
-    class_<PatternAutomaton>(
-        "PatternAutomaton",
-        init<optional<
-            std::size_t,
-            std::size_t,
-            const std::string &
-        > > ((
-            arg("num_vertices") = 0,
-            arg("alphabet_size") = 0,
-            arg("word") = ""
-        ))
-    )
-        .def("add_vertex",      &PatternAutomaton::add_vertex)
-        .def("add_edge",        &PatternAutomaton::add_edge)
-        .def("num_vertices",    &PatternAutomaton::num_vertices)
-        .def("num_edges",       &PatternAutomaton::num_edges)
-        .def("alphabet_size",   &PatternAutomaton::get_alphabet_size)
-        .def("__str__",         &PatternAutomaton::to_string)
+    // Class with default named parameter.
+    // Named parameters are managed thanks to boost::python::arg
+    class_<Bonjour>("Bonjour", init<optional<const std::string &, int> >((
+        arg("msg") = "",
+        arg("x") = (int) 7
+    )))
+        .def("greet", &Bonjour::greet, "built on top of 'Bonjour::greet'")
+        .def("sum",   &Bonjour::sum)
+        // If there is no setter, just omit the 3rd parameter
+        .add_property("int", &Bonjour::get_int, &Bonjour::set_int)
+        .add_property("msg", &Bonjour::get_msg, &Bonjour::set_msg)
     ;
 
-    class_<PatternClustering>(
-        "PatternClustering",
-        init<
-            const PatternClustering::PatternAutomata &,
-            const PatternClustering::Densities &,
-            double
-        > ((
-            arg("pattern_automata"),
-            arg("densities"),
-            arg("threshold")
-        ))
-    )
-        .def_readwrite("threshold", &PatternClustering::threshold)
-        .def("compute", &PatternClustering::compute)
+    class_<Point>("Point", init<optional<int, int> >((
+        arg("x") = (int) 0,
+        arg("y") = (int) 0
+    )))
+        // Access to member (def_readwrite | def_readonly)
+        .def_readwrite("x", &Point::x)
+        .def_readwrite("y", &Point::y)
     ;
+
+    // Functions
+    typedef int (*extract_function_type)(Point const &);
+    def("extract_x", extract_function_type(&::extract_x), arg("pt"));
+    def("extract_y", extract_function_type(&::extract_y), arg("pt"));
+
+    // Class with STL containers (std::vector, std::map)
+    // Note the two methods are exclusive.
+
+    // Method2
+    // Expose the STL-based object to python.
+    // Python-side, declare an Floats and populate it using append and exend methods.
+    class_<StlExample::Floats>("Floats")
+        .def(vector_indexing_suite<StlExample::Floats>());
+    class_<StlExample::MapStrFloat>("MapStrFloat")
+        .def(map_indexing_suite<StlExample::MapStrFloat>());
+
+
+    class_<StlExample>("StlExample")
+        // Method1:
+        // Thanks to converters, we can use python-side a normal dict or list
+        .add_property(
+            "ints",
+            &StlExample::get_ints,
+            &StlExample::set_ints
+        )
+        .add_property(
+            "map_str_int",
+            &StlExample::get_map_str_int,
+            &StlExample::set_map_str_int
+        )
+        // Method2
+        .add_property(
+            "floats",
+            &StlExample::get_floats,
+            &StlExample::set_floats
+        )
+        .add_property(
+            "map_str_float",
+            &StlExample::get_map_str_float,
+            &StlExample::set_map_str_float
+        )
+    ;
+
 }

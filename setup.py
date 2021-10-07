@@ -20,7 +20,7 @@ lib_boost = f"boost_python{x}{y}"
 lib_python = f"python{x}.{y}"
 
 setup(
-    name = "pattern_clustering",
+    name = "pyboost",
     version = "0.0.1",
     description = "A python wrapping some simple C++ classes",
     # Do not include pure python file in the same module to prevent clashes.
@@ -29,7 +29,7 @@ setup(
     ext_modules = [
         Extension(
             # The extension must have the name of the package
-            "pattern_clustering", # This generates pattern_clustering*.so, than may directly be imported in python3
+            "pyboost", # This generates pyboost*.so, than may directly be imported in python3
             # The following macros remove some irrelevant compilation warnings.
             define_macros = [
                 ("BOOST_BIND_GLOBAL_PLACEHOLDERS", None),
