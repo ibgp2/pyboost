@@ -124,7 +124,7 @@ To test the produced python module, a convenient way is to rely on a test suite 
 
 In the details, ``pytest-3`` explore each subdirectory and for each file ``test_*.py``, it runs each function with a name prefixed by ``test_``. We recommend to do one test file per C++ class.
 
-1.Install ``pytest-3``:
+1. Install ``pytest-3``:
 
 .. code:: shell
 
@@ -140,19 +140,19 @@ Settings
 --------
 
 Depending on the project, the constants defined in ``CMakeLists.txt`` may be updated: 
-* ``name``; the name of the future python module. Do not forget to update the module name in ``src/bindings.cpp`` as well;
-* ``src_dir``: development directory of the C++ source files (``*.cpp``);
-* ``hdr_dir``: development directory of the C++ headers files (``*.hpp``);
-* ``install_lib_dir``: installation directory of the ``.so`` file;
-* ``install_hdr_dir``: installation directory of the ``.hpp`` files;
+- ``name``; the name of the future python module. Do not forget to update the module name in ``src/bindings.cpp`` as well;
+- ``src_dir``: development directory of the C++ source files (``*.cpp``);
+- ``hdr_dir``: development directory of the C++ headers files (``*.hpp``);
+- ``install_lib_dir``: installation directory of the ``.so`` file;
+- ``install_hdr_dir``: installation directory of the ``.hpp`` files;
 
 You might also require to add additional checks in ``CMakeLists.txt`` if you rely to other tierce libraries.
 
 TODO
 ----
 
-* ``setup.py`` to install deploy ``pyboost``.
-* Centralizes some hardcoded parameters (see ``CMakeLists.txt``, ``install.sh``, ``clean.sh````py/make_bindings_auto.py``).
+- ``setup.py`` to install deploy ``pyboost``.
+- Centralizes some hardcoded parameters (see ``CMakeLists.txt``, ``install.sh``, ``clean.sh````py/make_bindings_auto.py``).
 
 References
 ----------
@@ -162,7 +162,7 @@ References
 .. _pyplusplus: https://github.com/ompl/pyplusplus
 .. _stackoverflow: https://stackoverflow.com/
 
-* This tutorial [tutorial_].
-* The Python boost documentation [boost_]
-* PyPlusPlus GitHub repository [pyplusplus_].
-* Stackoverflow [stackoverflow_] (see the numerous pointers in the code, many thanks to the community) :)
+- The tutorial proposed by F. Lanusse [tutorial_].
+- The Python boost documentation [boost_]
+- The PyPlusPlus GitHub repository [pyplusplus_].
+- Stackoverflow [stackoverflow_] (see the numerous pointers in the code, many thanks to the community) :)
