@@ -136,18 +136,6 @@ In the details, ``pytest-3`` explore each subdirectory and for each file ``test_
 
   pytest-3 
 
-Settings
---------
-
-Depending on the project, the constants defined in ``CMakeLists.txt`` may be updated: 
-- ``name``; the name of the future python module. Do not forget to update the module name in ``src/bindings.cpp`` as well;
-- ``src_dir``: development directory of the C++ source files (``*.cpp``);
-- ``hdr_dir``: development directory of the C++ headers files (``*.hpp``);
-- ``install_lib_dir``: installation directory of the ``.so`` file;
-- ``install_hdr_dir``: installation directory of the ``.hpp`` files;
-
-You might also require to add additional checks in ``CMakeLists.txt`` if you rely to other tierce libraries.
-
 References
 ----------
 
