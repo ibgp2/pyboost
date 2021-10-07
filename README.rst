@@ -148,12 +148,6 @@ Depending on the project, the constants defined in ``CMakeLists.txt`` may be upd
 
 You might also require to add additional checks in ``CMakeLists.txt`` if you rely to other tierce libraries.
 
-TODO
-----
-
-- ``setup.py`` to install deploy ``pyboost``.
-- Centralizes some hardcoded parameters (see ``CMakeLists.txt``, ``install.sh``, ``clean.sh````py/make_bindings_auto.py``).
-
 References
 ----------
 
